@@ -75,6 +75,7 @@ pub fn poly_inverse_mod_xt<F: FftField>(poly: &DensePolynomial<F>, t: usize) -> 
 
 #[cfg(test)]
 pub mod poly_test_helpers {
+    //! Helper functions for testing polynomial operations
     use ark_ec::Group;
     use ark_poly::{univariate::DensePolynomial, DenseUVPolynomial, Polynomial};
     use ark_std::UniformRand;
