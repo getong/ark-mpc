@@ -12,7 +12,7 @@ use std::{
 };
 
 use ark_ec::CurveGroup;
-use ark_ff::{batch_inversion, Field, One, PrimeField, Zero};
+use ark_ff::{Field, One, PrimeField, Zero, batch_inversion};
 use ark_serialize::{CanonicalDeserialize, CanonicalSerialize};
 use ark_std::UniformRand;
 use itertools::Itertools;
@@ -21,7 +21,7 @@ use num_traits::Num;
 use rand::{CryptoRng, RngCore};
 use serde::{Deserialize, Serialize};
 
-use crate::algebra::{macros::*, ToBytes};
+use crate::algebra::{ToBytes, macros::*};
 
 // -----------
 // | Helpers |
@@ -43,7 +43,7 @@ pub const fn n_bytes_field<F: PrimeField>() -> usize {
 #[derive(Copy, Clone, Debug, Default, PartialEq, Eq, Hash)]
 /// A wrapper around the inner scalar that allows us to implement foreign traits
 /// for the `Scalar`
-pub struct Scalar<C: CurveGroup>(pub(crate) C::ScalarField);
+pub struct Scalar<C: CurveGroup>(pub C::ScalarField);
 
 impl<C: CurveGroup> Scalar<C> {
     /// The underlying field that the scalar wraps
@@ -374,14 +374,14 @@ impl<C: CurveGroup> Ord for Scalar<C> {
 #[cfg(test)]
 mod test {
     use crate::{
-        algebra::{poly_test_helpers::TestPolyField, scalar::Scalar, ScalarResult},
-        test_helpers::{execute_mock_mpc, mock_fabric, TestCurve},
+        algebra::{ScalarResult, poly_test_helpers::TestPolyField, scalar::Scalar},
+        test_helpers::{TestCurve, execute_mock_mpc, mock_fabric},
     };
     use ark_ff::Field;
     use ark_poly::{EvaluationDomain, Radix2EvaluationDomain};
     use futures::future;
     use itertools::Itertools;
-    use rand::{thread_rng, Rng, RngCore};
+    use rand::{Rng, RngCore, thread_rng};
 
     /// Tests serialization and deserialization of scalars
     #[test]
